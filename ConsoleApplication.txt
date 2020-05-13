@@ -1,0 +1,85 @@
+#include <map>
+#include <string>
+#include "Books.h"
+using namespace std;
+
+ostream &operator<<(ostream &o, const Books &p)
+{
+	o << "ФИО: " << p.FirstName << endl;
+	o << "Название: " << p.LastName << endl;
+	o << "Год издания: " << p.phone << endl;
+	o << "Количество экземпляров: " << p.num << endl;
+	return o;
+}
+
+int main()
+{
+	setlocale(LC_ALL, "Russian");
+	multimap<std::string, Books> Nboock;
+
+	int e;
+	do 
+	{
+		system("pause");
+		system("cls");
+		cout << "=> Введите номер выбора: " << endl;
+		cout << "1. Заполнить.  " << endl;
+		cout << "2. Показать." << endl;
+		cout << "3. Удалить списанные книги." << endl;
+		cout << "4. Сортировка по году." << endl;
+		cout << "5. Сортировка по авторам." << endl;
+		cout << "6. Выход." << endl;
+		cin >> e;
+		switch (e)
+		{
+		case 1:
+		{
+			int pop;
+			cout << "Введмте количество книг, которое хотите добавить в библиотеку: " << endl;
+			cin >> pop;
+			for (int i = 0;i < pop;i++)
+			{
+				string LastName;
+				string FirstName;
+				int phone;
+				int num;
+			    cout << "ФИО: ";
+				cin >> FirstName;
+				cout << "Название: ";
+				cin >> LastName;
+				cout << "Год: ";
+				cin >> phone;
+				cout << "Кол-во экземпляров: ";
+				cin >> num;
+				std::string key = LastName + " " + FirstName[0];
+				
+				Nboock.insert({ key, Books(FirstName, LastName, phone, num) });
+			}
+		}; break;
+		case 2: //просмотр
+		{
+			for (auto &item : Nboock)
+			{
+				std::cout << item.first << std::endl; //ключ
+				std::cout << item.second << std::endl; //данные
+			}
+		}; break;
+		case 3: //удаление
+		{
+			for (auto &item : Nboock)
+			{
+				std::cout << item.first << std::endl; //ключ
+				std::cout << item.second << std::endl; //данные
+			}
+
+			string key;
+			cout << "Введите ключ книги: " << endl;
+			std::cin.ignore();
+			std::getline(std::cin, key);
+			Nboock.erase(key);
+		}; break;
+		
+		}
+	} while (e != 7);
+
+}

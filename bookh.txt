@@ -1,0 +1,22 @@
+#pragma once
+#include <string.h>
+#include <iostream>
+using namespace std;
+
+class Books {
+public:
+	Books()
+		: LastName(" "), FirstName(" "), phone(0), num(0)
+	{}
+
+	Books(string ln, string fn, int ph, int num)
+		: LastName(ln), FirstName(fn), phone(ph), num(num)
+	{}
+
+private:
+	string LastName;
+	string FirstName;
+	int phone;
+	int num;
+	friend ostream &operator<<(ostream &o, const Books &p);
+};
