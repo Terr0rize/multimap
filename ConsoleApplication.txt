@@ -1,9 +1,10 @@
 #include <map>
 #include <string>
 #include "Books.h"
+
 using namespace std;
 
-ostream &operator<<(ostream &o, const Books &p)
+ostream& operator<<(ostream& o, const Books& p)
 {
 	o << "ФИО: " << p.FirstName << endl;
 	o << "Название: " << p.LastName << endl;
@@ -12,23 +13,26 @@ ostream &operator<<(ostream &o, const Books &p)
 	return o;
 }
 
+
 int main()
 {
 	setlocale(LC_ALL, "Russian");
-	multimap<std::string, Books> Nboock;
+	multimap<string, Books> Nboock;
+	multimap<int, Books> Nboock2;
+	/*	multimap<std::string, std::shared_ptr<Books>> Nboock;*/ //имеющаяся мапа, в которую идет запись с сортом по авторам
+		//multimap<std::string, std::shared_ptr<Books>> SortDate;//для сортировки по датам(только что создали)
 
 	int e;
-	do 
+	do
 	{
 		system("pause");
 		system("cls");
 		cout << "=> Введите номер выбора: " << endl;
-		cout << "1. Заполнить.  " << endl;
-		cout << "2. Показать." << endl;
-		cout << "3. Удалить списанные книги." << endl;
-		cout << "4. Сортировка по году." << endl;
-		cout << "5. Сортировка по авторам." << endl;
-		cout << "6. Выход." << endl;
+		cout << "[1]. Заполнить данные о книгах. " << endl;
+		cout << "[2]. Вывести книги в виде сортировки по авторам." << endl;
+		cout << "[3]. Удалить списанные книги." << endl;
+		cout << "[4]. Вывести книги в виде сортировки по году." << endl;
+		cout << "[5]. Выход." << endl;
 		cin >> e;
 		switch (e)
 		{
@@ -37,13 +41,13 @@ int main()
 			int pop;
 			cout << "Введмте количество книг, которое хотите добавить в библиотеку: " << endl;
 			cin >> pop;
-			for (int i = 0;i < pop;i++)
+			for (int i = 0; i < pop; i++)
 			{
 				string LastName;
 				string FirstName;
 				int phone;
 				int num;
-			    cout << "ФИО: ";
+				cout << "ФИО: ";
 				cin >> FirstName;
 				cout << "Название: ";
 				cin >> LastName;
@@ -51,34 +55,54 @@ int main()
 				cin >> phone;
 				cout << "Кол-во экземпляров: ";
 				cin >> num;
-				std::string key = LastName + " " + FirstName[0];
-				
+				std::string key = LastName;
 				Nboock.insert({ key, Books(FirstName, LastName, phone, num) });
+
 			}
 		}; break;
 		case 2: //просмотр
 		{
-			for (auto &item : Nboock)
+			for (auto& item : Nboock)
 			{
-				std::cout << item.first << std::endl; //ключ
-				std::cout << item.second << std::endl; //данные
+				//cout << item.first << endl; //ключ
+				cout << item.second << endl; //данные
 			}
 		}; break;
 		case 3: //удаление
 		{
-			for (auto &item : Nboock)
+			for (auto& item : Nboock)
 			{
-				std::cout << item.first << std::endl; //ключ
-				std::cout << item.second << std::endl; //данные
+				//cout << item.first << endl; //ключ
+				cout << item.second << endl; //данные
 			}
 
 			string key;
-			cout << "Введите ключ книги: " << endl;
-			std::cin.ignore();
-			std::getline(std::cin, key);
+			cout << "Введите ФИО для удаления книги: " << endl;
+			cin.ignore();
+			getline(cin, key);
 			Nboock.erase(key);
 		}; break;
-		
+
+		case 4:
+		{
+			for (auto& item : Nboock)
+			{
+				//cout << item.first << endl; //ключ
+				//cout << item.second << endl; //данные
+				Nboock2.insert({ item.second.phone ,item.second });
+			}
+			for (auto& item : Nboock2)
+			{
+				//cout << item.first << endl; //ключ
+				cout << item.second << endl; //данные
+			}
+			Nboock2.clear();
+		}; break;
+		case 5:
+		{
+			cout << "Библиотека книг закрыта!" << endl;
+			return 0;
+		}; break;
 		}
 	} while (e != 7);
 
